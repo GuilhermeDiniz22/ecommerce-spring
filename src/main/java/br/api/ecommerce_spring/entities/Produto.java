@@ -1,9 +1,6 @@
 package br.api.ecommerce_spring.entities;
 
 import java.math.BigDecimal;
-import java.util.Set;
-
-import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

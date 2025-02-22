@@ -1,7 +1,5 @@
 package br.api.ecommerce_spring.entities;
 
-import org.hibernate.annotations.SQLRestriction;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

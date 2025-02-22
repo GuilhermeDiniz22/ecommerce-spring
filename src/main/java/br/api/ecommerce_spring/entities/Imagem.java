@@ -1,9 +1,7 @@
 package br.api.ecommerce_spring.entities;
 
 import java.sql.Blob;
-import java.util.Set;
 
-import org.hibernate.annotations.SQLRestriction;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
