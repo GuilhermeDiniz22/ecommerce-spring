@@ -16,8 +16,7 @@ import jakarta.persistence.ManyToOne;
 import java.util.Objects;
 
 @Entity
-@Table(name = "categorias")
-@SQLRestriction("ativo = true")
+@Table(name = "imagens")
 public class Imagem {
 
     @Id
@@ -41,21 +40,16 @@ public class Imagem {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    @Column(nullable = false)
-    private boolean ativo;
-
     public Imagem() {
     }
 
-    public Imagem(Long id, String nomeArquivo, String tipoArquivo, Blob imagem, String url, Produto produto,
-            boolean ativo) {
+    public Imagem(Long id, String nomeArquivo, String tipoArquivo, Blob imagem, String url, Produto produto) {
         this.id = id;
         this.nomeArquivo = nomeArquivo;
         this.tipoArquivo = tipoArquivo;
         this.imagem = imagem;
         this.url = url;
         this.produto = produto;
-        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -106,18 +100,6 @@ public class Imagem {
         this.produto = produto;
     }
 
-    public boolean isAtivo() {
-        return this.ativo;
-    }
-
-    public boolean getAtivo() {
-        return this.ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
     public Imagem id(Long id) {
         setId(id);
         return this;
@@ -148,11 +130,6 @@ public class Imagem {
         return this;
     }
 
-    public Imagem ativo(boolean ativo) {
-        setAtivo(ativo);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -163,12 +140,12 @@ public class Imagem {
         Imagem imagem = (Imagem) o;
         return Objects.equals(id, imagem.id) && Objects.equals(nomeArquivo, imagem.nomeArquivo)
                 && Objects.equals(tipoArquivo, imagem.tipoArquivo) && Objects.equals(imagem, imagem.imagem)
-                && Objects.equals(url, imagem.url) && Objects.equals(produto, imagem.produto) && ativo == imagem.ativo;
+                && Objects.equals(url, imagem.url) && Objects.equals(produto, imagem.produto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nomeArquivo, tipoArquivo, imagem, url, produto, ativo);
+        return Objects.hash(id, nomeArquivo, tipoArquivo, imagem, url, produto);
     }
 
     @Override
@@ -180,7 +157,6 @@ public class Imagem {
                 ", imagem='" + getImagem() + "'" +
                 ", url='" + getUrl() + "'" +
                 ", produto='" + getProduto() + "'" +
-                ", ativo='" + isAtivo() + "'" +
                 "}";
     }
 

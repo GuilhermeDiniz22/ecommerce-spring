@@ -1,5 +1,8 @@
 package br.api.ecommerce_spring.entities;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.Column;
@@ -7,15 +10,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "categorias")
-public class Categoria {
+@Table(name = "roles")
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +25,16 @@ public class Categoria {
     @Column(nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Produto> produtos;
+    @ManyToMany(mappedBy = "roles")
+    private Collection<User> users = new HashSet<>();
 
-    public Categoria() {
+    public Role() {
     }
 
-    public Categoria(Long id, String nome, List<Produto> produtos) {
+    public Role(Long id, String nome, Collection<User> users) {
         this.id = id;
         this.nome = nome;
-        this.produtos = produtos;
+        this.users = users;
     }
 
     public Long getId() {
@@ -52,26 +53,26 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public List<Produto> getProdutos() {
-        return this.produtos;
+    public Collection<User> getUsers() {
+        return this.users;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setUsers(Collection<User> users) {
+        this.users = users;
     }
 
-    public Categoria id(Long id) {
+    public Role id(Long id) {
         setId(id);
         return this;
     }
 
-    public Categoria nome(String nome) {
+    public Role nome(String nome) {
         setNome(nome);
         return this;
     }
 
-    public Categoria produtos(List<Produto> produtos) {
-        setProdutos(produtos);
+    public Role users(Collection<User> users) {
+        setUsers(users);
         return this;
     }
 
@@ -79,17 +80,16 @@ public class Categoria {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Categoria)) {
+        if (!(o instanceof Role)) {
             return false;
         }
-        Categoria categoria = (Categoria) o;
-        return Objects.equals(id, categoria.id) && Objects.equals(nome, categoria.nome)
-                && Objects.equals(produtos, categoria.produtos);
+        Role role = (Role) o;
+        return Objects.equals(id, role.id) && Objects.equals(nome, role.nome) && Objects.equals(users, role.users);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, produtos);
+        return Objects.hash(id, nome, users);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class Categoria {
         return "{" +
                 " id='" + getId() + "'" +
                 ", nome='" + getNome() + "'" +
-                ", produtos='" + getProdutos() + "'" +
+                ", users='" + getUsers() + "'" +
                 "}";
     }
 

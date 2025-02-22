@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,11 +16,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "produtos")
-@SQLRestriction("ativo = true")
 public class Produto {
 
     @Id
@@ -45,17 +47,14 @@ public class Produto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "produto", orphanRemoval = true)
-    private Set<Imagem> imagens;
-
-    @Column(nullable = false)
-    private boolean ativo;
+    @OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Imagem> imagens;
 
     public Produto() {
     }
 
     public Produto(Long id, String nome, String marca, BigDecimal preco, String descricao, int quantidade,
-            Categoria categoria, Set<Imagem> imagens, boolean ativo) {
+            Categoria categoria, List<Imagem> imagens) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;
@@ -64,7 +63,6 @@ public class Produto {
         this.quantidade = quantidade;
         this.categoria = categoria;
         this.imagens = imagens;
-        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -123,24 +121,12 @@ public class Produto {
         this.categoria = categoria;
     }
 
-    public Set<Imagem> getImagens() {
+    public List<Imagem> getImagens() {
         return this.imagens;
     }
 
-    public void setImagens(Set<Imagem> imagens) {
+    public void setImagens(List<Imagem> imagens) {
         this.imagens = imagens;
-    }
-
-    public boolean isAtivo() {
-        return this.ativo;
-    }
-
-    public boolean getAtivo() {
-        return this.ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
     }
 
     public Produto id(Long id) {
@@ -178,13 +164,8 @@ public class Produto {
         return this;
     }
 
-    public Produto imagens(Set<Imagem> imagens) {
+    public Produto imagens(List<Imagem> imagens) {
         setImagens(imagens);
-        return this;
-    }
-
-    public Produto ativo(boolean ativo) {
-        setAtivo(ativo);
         return this;
     }
 
@@ -199,13 +180,12 @@ public class Produto {
         return Objects.equals(id, produto.id) && Objects.equals(nome, produto.nome)
                 && Objects.equals(marca, produto.marca) && Objects.equals(preco, produto.preco)
                 && Objects.equals(descricao, produto.descricao) && quantidade == produto.quantidade
-                && Objects.equals(categoria, produto.categoria) && Objects.equals(imagens, produto.imagens)
-                && ativo == produto.ativo;
+                && Objects.equals(categoria, produto.categoria) && Objects.equals(imagens, produto.imagens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, marca, preco, descricao, quantidade, categoria, imagens, ativo);
+        return Objects.hash(id, nome, marca, preco, descricao, quantidade, categoria, imagens);
     }
 
     @Override
@@ -219,7 +199,6 @@ public class Produto {
                 ", quantidade='" + getQuantidade() + "'" +
                 ", categoria='" + getCategoria() + "'" +
                 ", imagens='" + getImagens() + "'" +
-                ", ativo='" + isAtivo() + "'" +
                 "}";
     }
 
