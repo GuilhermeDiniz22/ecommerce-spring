@@ -34,6 +34,16 @@ public class Carrinho {
     @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ItemCarrinho> itemCarrinho = new HashSet<>();
 
+    public void removerItem(ItemCarrinho itemCarrinho2) {
+        this.itemCarrinho.remove(itemCarrinho2);
+        itemCarrinho2.setCarrinho(null);
+        atualizarTotal();
+    }
+
+    private void atualizarTotal() {
+        this.total.subtract(BigDecimal.valueOf(1));
+    }
+
     public Carrinho() {
     }
 

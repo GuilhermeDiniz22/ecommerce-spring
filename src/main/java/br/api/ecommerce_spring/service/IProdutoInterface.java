@@ -2,15 +2,16 @@ package br.api.ecommerce_spring.service;
 
 import java.util.List;
 
+import br.api.ecommerce_spring.dto.request.ProdutoRequest;
 import br.api.ecommerce_spring.entities.Produto;
 
 public interface IProdutoInterface {
 
    Produto getProdutoById(Long id);
 
-   Produto updateProduto(Produto produto, Long id);
+   Produto updateProduto(ProdutoRequest request, Long id);
 
-   Produto addProduto(Produto produto);
+   Produto addProduto(ProdutoRequest produto);
 
    void removerProduto(Long id);
 
